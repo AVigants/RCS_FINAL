@@ -1,0 +1,13 @@
+.circle {
+    border-radius: 50%;
+    height: 230px;
+    width: 230px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.can_be_clicked:hover{
+    cursor: pointer;
+    opacity: 0.7;
+}
