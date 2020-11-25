@@ -28,4 +28,11 @@ $(function(){
     $('#profile_pic_submit').click(e=>{
         $('#profile_pic_submit').fadeOut();
     });
+    $('#comment_btn').click(e=>{
+        $('#comment_textarea').slideDown();
+    });
+    $('#cancel_comment_btn').click(e=>{
+        $('#comment_textarea').slideUp();
+
+    })
 })

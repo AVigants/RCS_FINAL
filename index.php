@@ -16,7 +16,7 @@
         Header("Location: /be_project_mvc/?page=login");
         }
     } else {
-        // Header("Location: /be_project_mvc/?page=login");
+        Header("Location: /be_project_mvc/?page=login");
     }
 ?>
 
