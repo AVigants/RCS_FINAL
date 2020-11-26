@@ -1,6 +1,7 @@
 <?php
     require_once __DIR__ . "/../config/db_config.php";
     require_once __DIR__ . "/../components/login_form.php";
+    // todo: add email availability checker
     
     //declaring variables to prevent errors
     $fname = '';
@@ -147,6 +148,7 @@
                     DB::run($sql);
                     $_SESSION['user'] = $response['email'];
                     Header('Location: /be_project_mvc/?page=home');
+
                 } else{
                     $log_err_arr[] = "Incorrect Password! <br>";
                 }

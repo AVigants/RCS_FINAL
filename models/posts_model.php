@@ -115,5 +115,12 @@
             $sql = "DELETE FROM followers WHERE follower_id = '$follower' AND following_id = '$following'";
             DB::run($sql);
         }
+        public function get_search_results($search_text){
+            $sql_posts = "SELECT *
+            FROM posts
+            WHERE is_visible = 1 AND about LIKE '%$search_text%' or author LIKE '%$search_text%'";
+            $response = DB::run($sql_posts)->fetch_all(MYSQLI_ASSOC);
+            return $response;
+        }
     }
 ?>

@@ -4,11 +4,6 @@
 
 
 $model = new Posts_model();
-// $posts = $model->get_all_posts();
-
-// $view = new Home_view($posts);
-// $view->html();
-
 
 if (isset($_GET["view"]) && $_GET["view"] === "profile") {
     if (isset($_GET["user_id"])) {
@@ -40,7 +35,18 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
     else{
         echo 'something went wrong';
     }
-} else{
+} 
+else if ((isset($_POST['search_btn']) && $search_results)){
+    $posts_with_is_liked = [];
+    foreach ($search_results as $post){
+        $is_liked = $model->get_is_liked($user_id, $post['id']);
+        $post['is_liked'] = $is_liked;
+        $posts_with_is_liked[] = $post;
+    }
+    $view = new Home_view($posts_with_is_liked);
+    $view->html();
+} 
+else{
     $model = new Posts_model();
     $posts = $model->get_all_posts();
     $posts_with_is_liked = [];
@@ -53,6 +59,7 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
     $view = new Home_view($posts_with_is_liked);
     $view->html();
 }
+
 
 if(isset($_POST['submit_comment'])){
     if(isset($_POST['comment'])){
@@ -79,9 +86,3 @@ if(isset($_POST['unlike'])){
         // todo add smth here
     }
 }
-
-
-// if(isset($_POST['like'])){
-//     echo'lmao yes';
-// }
-?>

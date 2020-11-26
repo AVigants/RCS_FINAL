@@ -1,4 +1,5 @@
 <?php
+$search_results = [];
 //--------------uploading a profile image--------------
 $profile_pic_err_arr = [];
 if (isset($_GET["view"]) && $_GET["view"] === "profile") {
@@ -11,7 +12,7 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
         echo 'something went wrong';
     }
 } else {
-    render_user_jumbotron($profile_pic, $fname_with_comma);
+    render_user_jumbotron($profile_pic, $username);
 }
 
 if (isset($_POST['follow_btn'])) {
@@ -61,12 +62,20 @@ if (isset($_POST['profile_pic_submit'])) {
     }
 }
 
+if (isset($_POST['search_btn'])) {
+    if ((isset($_POST['search_text'])) && $_POST['search_text']) {
+        $search_text = $_POST['search_text'];
+        $search_text = htmlspecialchars($search_text);
+        $model = new Posts_model();
+        $search_results = $model->get_search_results($search_text);
+    }
+}
 ?>
 
 <!-- USER JUMBOTRON -->
-<?php function render_user_jumbotron($profile_pic, $fname_with_comma)
+<?php function render_user_jumbotron($profile_pic, $username)
 { ?>
-    <div class="jumbotron jumbotron-fluid text-white text-center pt-4 pb-4" style="background: #73a2ba;">
+    <div class="jumbotron jumbotron-fluid text-white pt-4 pb-4" style="background: #73a2ba;">
         <div class="container">
             <div class="float-left">
                 <form action="" method="POST" enctype="multipart/form-data">
@@ -79,20 +88,22 @@ if (isset($_POST['profile_pic_submit'])) {
                     <input type="submit" class="btn btn-warning" name="profile_pic_submit" id="profile_pic_submit" style="display: none;" value="Submit Profile Picture">
                 </form>
             </div>
-            <div class="">
-                <h1 class="display-1">Welcome back<span class="text-lowercase text-capitalize"><?= $fname_with_comma ?? '' ?></span></h1>
+            <div class="container text-center">
+
+                <h1 class="display-1">Welcome back, <span class="text-lowercase text-capitalize"><?= $username ?? '' ?></span></h1>
                 <p class="lead">"May the force be ever in your favor"</p>
                 <p class="font-italic">/Dumbledore/</p>
-                <input type="text" class="p-1 col-5 text-center" placeholder="Search">
-                <!-- todo remove this when viewing a single post or leave it for the comments....-->
-                <select name="" id="">
-                    <option value="">Date ↓</option>
-                    <option value="">Date ↑</option>
-                    <option value="">Likes ↓</option>
-                    <option value="">Likes ↑</option>
-                    <option value="">Comments ↓</option>
-                    <option value="">Comments ↑</option>
-                </select>
+
+                <form action="" method="POST">
+                    <div class="input-group col-5 mx-auto">
+                        <input class="form-control py-2 rounded-pill mr-1 pr-5 d-inline" type="search" placeholder="Search" id="search_input_field" name="search_text">
+                        <span class="input-group-append">
+                            <button class="btn rounded-pill border-0 ml-n5" type="submit" name="search_btn">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -113,12 +124,12 @@ if (isset($_POST['profile_pic_submit'])) {
                 </div>
             </div>
             <div>
-                <h1 class="display-1">
-                    <span class="text-lowercase text-capitalize">@<?= $foreign_user['username'] ?? 'Welcome!' ?></span>
+                <h1 class="display-3">
+                    <span class="text-lowercase text-capitalize">@<?= $foreign_user['username'] ?></span>
                 </h1>
 
                 <p class="lead">"May the force be ever in your favor"</p>
-                <p class="font-italic">/<?= $foreign_user['username'] ?? 'Dumbledore' ?>/</p>
+                <p class="font-italic">/'Dumbledore'/</p>
                 <?php if (!($user_id == $_GET['user_id'])) {
                     if (!$is_following) {
                 ?>

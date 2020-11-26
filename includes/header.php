@@ -4,8 +4,8 @@ require_once __DIR__ . "/../models/posts_model.php";
 //declaring variables to prevent errors
 $user = '';
 $user_id = '';
-$fname_with_comma = '';
 $profile_pic = '';
+$username = 'XxNarutoxX';
 
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
@@ -14,7 +14,6 @@ if (isset($_SESSION['user'])) {
     $response = DB::run($sql)->fetch_assoc();
     if ($response) {
         $user_id = $response['id'];
-        $fname_with_comma = ', ' . $response['fname'];
         $profile_pic = $response['profile_pic'];
         // todo declare these as global variables so I dont have to pass them in the function as params in jumbotron.php render_user_jumbotron()
     }
@@ -36,13 +35,15 @@ if (isset($_POST['submit_post'])) {
         $target_file = $target_dir . basename($_FILES["post_pic"]["name"]);
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $check = getimagesize($_FILES["post_pic"]["tmp_name"]); //todo: solve this problem when i click on subm and its empty x2
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            $post_err_arr[] = 'File is not an image <br>';
-            $uploadOk = 0;
-        }
+        // $check = getimagesize($_FILES["post_pic"]["tmp_name"]); //todo: solve this problem when i click on subm and its empty x2
+        // if ($check !== false) {
+        //     $uploadOk = 1;
+        // } else {
+        //     $post_err_arr[] = 'File is not an image <br>';
+        //     $uploadOk = 0;
+        // }
+
+        // todo: add a lorem picsum image if I submit with no image
         if ($_FILES["post_pic"]["size"] > 20971520) {
             $post_err_arr[] = "Sorry, your file is too large. Max: 20MB.";
             $uploadOk = 0;
@@ -112,24 +113,23 @@ if (isset($_POST['submit_post'])) {
                     Profile
                 </a>
             </li>
-            <li class="mx-5">
-                <button class="text-white btn btn-link" id="add_post">
-                    <i class="fas fa-plus-square text-success fa-lg"></i>
-                    Add Post
-                </button>
-                <!-- bugfix: when I refresh the page - another sql statement gets sent to the db resulting in another new post -->
-            </li>
-            <li class="mx-5">
-                <form action="" method="POST" name="following_form" class="d-inline">
-                    <button class="text-white btn btn-link" type="submit" name="following_btn">
-                        <i class="fas fa-users text-white fa-lg"></i>
-                        Following
+                <li class="mx-5">
+                    <button class="text-white btn btn-link" id="add_post">
+                        <i class="fas fa-plus-square text-success fa-lg"></i>
+                        Add Post
                     </button>
-                </form>
-            </li>
+                    <!-- bugfix: when I refresh the page - another sql statement gets sent to the db resulting in another new post -->
+                </li>
+                <li class="mx-5">
+                    <form action="" method="POST" name="following_form" class="d-inline">
+                        <button class="text-white btn btn-link" type="submit" name="following_btn">
+                            <i class="fas fa-users text-white fa-lg"></i>
+                            Following
+                        </button>
+                    </form>
+                </li>
             <li class="dropdown mx-5">
-                <form action="" class="d-inline" name="">
-                    <button class="dropdown-toggle text-white btn btn-link" id="dropdownMenuButton" data-toggle="dropdown">
+                    <button class="dropdown-toggle text-white btn btn-link" data-toggle="dropdown">
                         <i class="fas fa-cog text-white fa-lg"></i>
                         Settings
                     </button>
@@ -138,7 +138,6 @@ if (isset($_POST['submit_post'])) {
                         <a class="dropdown-item" href="#" id="gridViewBtn"><i class="fas fa-th"></i> Grid View</a>
                         <a class="dropdown-item" href="#" id="clearArrayBtn"><i class="fas fa-info-circle"></i> About</a>
                     </div>
-                </form>
             </li>
             <li class="mx-5">
                 <form action="" method="POST" name="logout_submit" class="d-inline">
@@ -175,8 +174,8 @@ if (isset($_POST['submit_post'])) {
 
                             <textarea placeholder="About..." class="text-center col-11 my-2 form-control mx-auto" name="post_text"></textarea>
                             <div>
-                                <button type="submit" class="btn btn-info col-4" name="submit_post">Submit</button>
-                                <div class="btn btn-danger col-4" id="add_post_form_close_btn">
+                                <button type="submit" class="btn btn-warning col-4" name="submit_post">Submit</button>
+                                <div class="btn btn-dark col-4" id="add_post_form_close_btn">
                                     Cancel
                                 </div>
                                 <!-- todo: add color to either bg of html, of cards, of add-card -->
