@@ -17,7 +17,7 @@ class Home_view
         <!-- CARDS -->
 
         <div class="container text-muted">
-            <div class="row" id="cards">
+            <div class="row mb-5" id="cards">
                 <?php foreach ($this->posts as $post) { ?>
                     <div class="col-md-6 col-lg-3 my-2">
                         <div class="card text-center">
@@ -30,7 +30,14 @@ class Home_view
                                 <span class="col-2"><?= $post['num_comments'] ?? '0' ?></span>
                                 <form action="" method="POST" class="d-inline">
                                     <a href="/be_project_mvc/?page=home&view=post&post_id=<?= $post['id'] ?>" type="button" class=" btn btn-primary far fa-comment fa-lg col-3"></a>
-                                    <button type="submit" class="btn btn-danger fas fa-thumbs-up fa-lg col-3" name="like"></button>
+                                    <?php if(!$post['is_liked']){ ?>
+                                        <button type="submit" class="btn btn-danger fas fa-thumbs-up fa-lg col-3" name="like"></button>
+                                    <?php } else { ?>
+                                        <button type="submit" class="btn btn-dark fas fa-thumbs-up fa-lg col-3" name="unlike"></button>
+                                    <?php } ?>
+                                    <input type="hidden" value="<?= $post['id'] ?>" name="post_id">
+
+                                    
                                 </form>
                                 <span class="col-2"><?= $post['num_likes'] ?? '0' ?></span>
                                 <br>
@@ -50,12 +57,10 @@ class Home_view
             </tbody>
         </table>
     </div> -->
-        </body>
 
-        </html>
     <?php
     }
-    public function post_html()
+    public function single_post_html()
     {
     ?>
         <div class="container text-muted">
@@ -73,7 +78,14 @@ class Home_view
                                 <hr>
                                 <span class="col-2"><?= $this->posts['num_comments'] ?></span>
                                 <button type="button" class=" btn btn-primary far fa-comment fa-lg col-4" id="comment_btn"></button>
-                                <button type="submit" class="btn btn-danger fas fa-thumbs-up fa-lg col-4" name="like"></button>
+                                <form action="" method="POST" class="d-inline">
+                                    <?php if(!($this->posts['is_liked'])){ ?>
+                                        <button type="submit" class="btn btn-danger fas fa-thumbs-up fa-lg col-4" name="like"></button>
+                                    <?php } else { ?>
+                                        <button type="submit" class="btn btn-dark fas fa-thumbs-up fa-lg col-4" name="unlike"></button>
+                                    <?php } ?>
+                                    <input type="hidden" name="post_id" value="<?= $this->posts['id'] ?>">
+                                </form>
                                 <span class="col-2"><?= $this->posts['num_likes'] ?></span>
                                 <div id="comment_textarea" class="" style="display: none;">
                                     <form action="" method="POST">
@@ -85,11 +97,11 @@ class Home_view
                                 <hr>
                             </div>
                             <?php foreach ($this->comments as $comment) { ?>
-                            <div class="text-justify mx-3">
-                                <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $comment['author_id'] ?>"><?= $comment['author'] ?></a>
-                                <span class="text-dark font-italic"><?= $comment['time_posted'] ?></span> <br> 
-                                <p><?= $comment['comment_text'] ?></p>
-                            </div>
+                                <div class="text-justify mx-3">
+                                    <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $comment['author_id'] ?>"><?= $comment['author'] ?></a>
+                                    <span class="text-dark font-italic"><?= $comment['time_posted'] ?></span> <br>
+                                    <p><?= $comment['comment_text'] ?></p>
+                                </div>
                             <?php } ?>
                         </div>
                     </div>
@@ -100,3 +112,5 @@ class Home_view
     }
 }
 ?>
+</body>
+</html>

@@ -181,6 +181,7 @@ if (isset($_POST['submit_post'])) {
                                 </div>
                                 <!-- todo: add color to either bg of html, of cards, of add-card -->
                                 <!-- todo: add the image right away to the card as a preview! -->
+                                <!-- todo dont let the image be submitted if it has spaces in its name! -->
                             </div>
                         </div>
                     </div>

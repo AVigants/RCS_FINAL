@@ -14,11 +14,11 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
     render_user_jumbotron($profile_pic, $fname_with_comma);
 }
 
-if(isset($_POST['follow_btn'])){
+if (isset($_POST['follow_btn'])) {
     $model = new Posts_model();
     $model->follow_user($user_id, $_GET['user_id']);
 }
-if(isset($_POST['unfollow_btn'])){
+if (isset($_POST['unfollow_btn'])) {
     $model = new Posts_model();
     $model->unfollow_user($user_id, $_GET['user_id']);
 }
@@ -83,15 +83,15 @@ if (isset($_POST['profile_pic_submit'])) {
                 <h1 class="display-1">Welcome back<span class="text-lowercase text-capitalize"><?= $fname_with_comma ?? '' ?></span></h1>
                 <p class="lead">"May the force be ever in your favor"</p>
                 <p class="font-italic">/Dumbledore/</p>
-                <input type="text" class="p-1 col-5 text-center" placeholder="Search"> 
+                <input type="text" class="p-1 col-5 text-center" placeholder="Search">
                 <!-- todo remove this when viewing a single post or leave it for the comments....-->
                 <select name="" id="">
-                <option value="">Date ↓</option>
-                <option value="">Date ↑</option>
-                <option value="">Likes ↓</option>
-                <option value="">Likes ↑</option>
-                <option value="">Comments ↓</option>
-                <option value="">Comments ↑</option>
+                    <option value="">Date ↓</option>
+                    <option value="">Date ↑</option>
+                    <option value="">Likes ↓</option>
+                    <option value="">Likes ↑</option>
+                    <option value="">Comments ↓</option>
+                    <option value="">Comments ↑</option>
                 </select>
             </div>
         </div>
@@ -116,24 +116,24 @@ if (isset($_POST['profile_pic_submit'])) {
                 <h1 class="display-1">
                     <span class="text-lowercase text-capitalize">@<?= $foreign_user['username'] ?? 'Welcome!' ?></span>
                 </h1>
-                
+
                 <p class="lead">"May the force be ever in your favor"</p>
                 <p class="font-italic">/<?= $foreign_user['username'] ?? 'Dumbledore' ?>/</p>
-                <?php if(!($user_id == $_GET['user_id'])){ 
-                    if(!$is_following){
+                <?php if (!($user_id == $_GET['user_id'])) {
+                    if (!$is_following) {
+                ?>
+                        <form method="POST">
+                            <button type="submit" class="btn btn-warning m-0 col-5" name="follow_btn" id="follow_btn">Follow</button>
+                        </form>
+                    <?php } else {
                     ?>
-                <form method="POST">
-                    <button type="submit" class="btn btn-warning m-0 col-5" name="follow_btn" id="follow_btn">Follow</button>
-                </form>
-                <?php } else{
-                    ?>
-                    <form method="POST">
-                        <button type="submit" class="btn btn-dark m-0 col-5" name="unfollow_btn" id="follow_btn">Unfollow</button>
-                    </form>
-                    <?php
+                        <form method="POST">
+                            <button type="submit" class="btn btn-dark m-0 col-5" name="unfollow_btn" id="follow_btn">Unfollow</button>
+                        </form>
+                <?php
+                    }
                 }
-                }
-                 ?>
+                ?>
             </div>
         </div>
     </div>
