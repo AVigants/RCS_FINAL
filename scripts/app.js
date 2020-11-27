@@ -10,14 +10,14 @@ $(function () {
     //-------------------variable declaration to prevent errors-----------------------------------------------
     const patterns = {
         reg_fname: /^[a-zA-Z]{2,25}$/,
-        reg_lname: /^[a-zA-Z]{2,25}$/,
+        reg_username: /^[a-zA-Z]{2,25}$/,
         reg_email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
         reg_pass: /^[\w@-]{8,25}$/,
         reg_cpass: /^[\w@-]{8,25}$/,
     };
     let reg_values = {
     reg_fname: '',
-    reg_lname: '',
+    reg_username: '',
     reg_email: '',
     reg_pass: '',
     reg_cpass: ''
@@ -58,7 +58,7 @@ $(function () {
 
     //--------------------reg_submit event-------------------
     // $('#registerForm').submit(e => {
-    //     if (reg_values.reg_fname && reg_values.reg_lname && reg_values.reg_email && reg_values.reg_pass && reg_values.reg_cpass) {
+    //     if (reg_values.reg_fname && reg_values.reg_username && reg_values.reg_email && reg_values.reg_pass && reg_values.reg_cpass) {
     //         renderThankYou(reg_values.reg_fname);
     //     }
     // });

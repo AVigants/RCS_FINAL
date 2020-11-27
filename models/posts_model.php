@@ -1,4 +1,15 @@
 <?php
+$username = '';
+$user_id = '';
+$fname = '';
+$email = '';
+
+$user = $_SESSION['user'];
+$user_id = $user['id'];
+$fname = $user['fname'];
+$username = $user['username'];
+$email = $user['email'];
+
     class Posts_model {
 
         public function get_all_posts() {
@@ -7,14 +18,14 @@
             return $response;
         }
         public function get_all_current_user_posts(){
-            $user = $_SESSION['user'];
-            $sql = "SELECT * FROM posts WHERE author = '$user' ORDER BY date_posted DESC";
+            $username = $_SESSION['user']['username'];
+            $sql = "SELECT * FROM posts WHERE author = '$username' ORDER BY date_posted DESC";
             $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }
         public function delete_post($id) {
-            $user = $_SESSION['user'];
-            $sql = "DELETE FROM posts WHERE id='$id' AND author = '$user'";
+            $username = $_SESSION['user']['username'];
+            $sql = "DELETE FROM posts WHERE id='$id' AND author = '$username'";
             DB::run($sql);
         }
 
@@ -28,9 +39,16 @@
             $sql = "UPDATE posts SET is_visible = '$is_visible' WHERE id='$id' AND author = '$user'";
             DB::run($sql);
         }
-        public function add_new_post($user, $user_id, $path, $about, $date_posted) {
-            $sql = "INSERT INTO posts (author, author_id, img, about, date_posted) VALUES ('$user', '$user_id', '$path', '$about', '$date_posted')";
-            DB::run($sql);
+        public function add_new_post($username, $user_id, $about, $date_posted, $imageFileType) {
+            $sql_phase_one = "INSERT INTO posts (author, author_id, about, date_posted, img) VALUES ('$username', '$user_id', '$about', '$date_posted', 'placeholder')";
+            DB::run($sql_phase_one);
+            $sql_get_id = "SELECT id FROM posts WHERE author_id = '$user_id' AND img = 'placeholder'";
+            $response = DB::run($sql_get_id)->fetch_assoc();
+    
+            $path = 'assets/images/' . $response['id'] . '.' . $imageFileType;
+            $sql_phase_two = "UPDATE posts SET img = '$path' WHERE img = 'placeholder' AND author_id = '$user_id'";
+            DB::run($sql_phase_two);
+            return $response['id'];
         }
         public function get_posts_by_user_id($id){
             $sql = "SELECT * FROM posts WHERE author_id = '$id' AND is_visible = 1 ORDER BY date_posted DESC";

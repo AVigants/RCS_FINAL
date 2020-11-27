@@ -2,15 +2,20 @@
 require_once "config/db_config.php";
 require_once __DIR__ . "/../models/posts_model.php";
 //declaring variables to prevent errors
+$fname = '';
 $user = '';
 $user_id = '';
 $profile_pic = '';
-$username = 'XxNarutoxX';
+$username = '';
 
+//make sure we are logged in as the correct user:
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
-    //add the fname to the jumbotron ffs
-    $sql = "SELECT * FROM users WHERE email = '$user'";
+    $user_id = $user['id'];
+    $fname = $user['fname'];
+    $username = $user['username'];
+    $email = $user['email'];
+    $sql = "SELECT * FROM users WHERE id = '$user_id'";
     $response = DB::run($sql)->fetch_assoc();
     if ($response) {
         $user_id = $response['id'];
@@ -21,7 +26,7 @@ if (isset($_SESSION['user'])) {
     Header('Location: /be_project_mvc/?page=login');
 }
 if (isset($_POST['logout_btn'])) {
-    $sql = "UPDATE users SET logged_in = 0 WHERE email = '$user'";
+    $sql = "UPDATE users SET logged_in = 0 WHERE id = '$user_id'";
     DB::run($sql);
     session_destroy();
     Header('Location: /be_project_mvc/?page=login');
@@ -30,12 +35,15 @@ if (isset($_POST['logout_btn'])) {
 //-----------------------uploading a new post----------------------------
 $post_err_arr = [];
 if (isset($_POST['submit_post'])) {
-    if (isset($_FILES['post_pic']['name'])) { //doesnt work - if its empty it still submits the thing
+    if (isset($_FILES['post_pic']['name'])) {
         $target_dir = "./assets/images/";
-        $target_file = $target_dir . basename($_FILES["post_pic"]["name"]);
+        $basename = basename($_FILES['post_pic']['name']);
+        $basename = str_replace(' ', '_', $basename);
+        $target_file = $target_dir . $basename;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        // $check = getimagesize($_FILES["post_pic"]["tmp_name"]); //todo: solve this problem when i click on subm and its empty x2
+
+        // $check = getimagesize($_FILES["post_pic"]["tmp_name"]);
         // if ($check !== false) {
         //     $uploadOk = 1;
         // } else {
@@ -52,20 +60,21 @@ if (isset($_POST['submit_post'])) {
             $post_err_arr[] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
         }
-        if ($post_err_arr) {
+        if ($post_err_arr || $uploadOK = 0) {
             echo "Sorry, your file was not uploaded.<br>";
             print_r($post_err_arr);
         } else {
-            if (!(file_exists($target_file))) {
-                move_uploaded_file($_FILES["post_pic"]["tmp_name"], $target_file);
-                echo 'file has been moved to designated server folder';
-            }
             $date_posted = date("Y-m-d");
             $about = $_POST['post_text'];
             $about = htmlspecialchars($about);
-            $path = 'assets/images/' . $_FILES["post_pic"]["name"]; //path needs to be fixed since im in a new folder
             $model = new Posts_model();
-            $model->add_new_post($user, $user_id, $path, $about, $date_posted);
+            $post_id = $model->add_new_post($username, $user_id, $about, $date_posted, $imageFileType);
+            $target_file = $target_dir . $post_id . '.' . $imageFileType;
+            if(!(file_exists($target_file))) {
+                move_uploaded_file($_FILES["post_pic"]["tmp_name"], $target_file);
+                echo 'file has been moved to designated server folder';
+            }
+            //todo: remove the image from the folder when I delete the image from the website/database
         }
     }
 }

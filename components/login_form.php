@@ -66,7 +66,7 @@ class Login_form{
                 <p>Name can only contain English letters, must be between 2 and 25 characters long</p>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Last Name" required="required" name="reg_lname" value="<?= $_SESSION['reg_lname'] ?? '' ?>">
+                <input type="text" class="form-control" placeholder="Username" required="required" name="reg_username" value="<?= $_SESSION['reg_username'] ?? '' ?>">
                 <p>Name can only contain English letters, must be between 2 and 25 characters long</p>
             </div>
             <div class="form-group">

@@ -5,7 +5,7 @@
     
     //declaring variables to prevent errors
     $fname = '';
-    $lname = '';
+    $username = '';
     $email = '';
     $pass = '';
     $cpass = '';
@@ -22,12 +22,12 @@
         $fname = htmlspecialchars($fname);
         $_SESSION['reg_fname'] = $fname;
 
-        $lname = $_POST['reg_lname'];
-        $lname = strip_tags($lname);
-        $lname = ucfirst(strtolower($lname));
-        $lname = str_replace(' ', '', $lname);
-        $lname = htmlspecialchars($lname);
-        $_SESSION['reg_lname'] = $lname;
+        $username = $_POST['reg_username'];
+        $username = strip_tags($username);
+        $username = ucfirst(strtolower($username));
+        $username = str_replace(' ', '', $username);
+        $username = htmlspecialchars($username);
+        $_SESSION['reg_username'] = $username;
 
         $email = $_POST['reg_email'];
         $email = strip_tags($email);
@@ -35,13 +35,6 @@
         $email = str_replace(' ', '', $email);
         $email = htmlspecialchars($email);
         $_SESSION['reg_email'] = $email;
-
-        $fname = $_POST['reg_fname'];
-        $fname = strip_tags($fname);
-        $fname = ucfirst(strtolower($fname));
-        $fname = str_replace(' ', '', $fname);
-        $fname = htmlspecialchars($fname);
-        $_SESSION['reg_fname'] = $fname;
 
         $pass = strip_tags($_POST['reg_pass']);
         $pass = htmlspecialchars($pass);
@@ -52,21 +45,21 @@
         $cpass = str_replace(' ', '', $cpass);
 
         $signup_date = date("Y-m-d");
-        echo"
-        <script>
-        $(function(){
-            $('#loginFormWrapper').hide();
-            $('#registerFormWrapper').show();
-        })
-        </script>
-        ";
+
         //$err_arr checks for registering
         if (!preg_match('/^[a-zA-Z]{2,25}$/', $fname)) {
             $err_arr[] = 'Name can only contain English letters, must be between 2 and 25 characters long <br>';
         }
-        if (!preg_match('/^[a-zA-Z]{2,25}$/', $lname)) {
+        if (!preg_match('/^[a-zA-Z]{2,25}$/', $username)) {
             $err_arr[] = 'Name can only contain English letters, must be between 2 and 25 characters long <br>';
         }
+
+        $sql = "SELECT * FROM users WHERE username = '$username'";
+        $response = DB::run($sql);
+        if (!($response->num_rows === 0)) {
+            $err_arr[] =  'Username is already in use! <br>';
+        }
+        
         if (!preg_match('/^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/', $email)) {
             $err_arr[] = 'Email must be a valid address, e.g. me@mydomain.com <br>';
         }
@@ -90,21 +83,12 @@
             $salt = "o#A*&1*71^0'}[m";
             $pass = $pass . $salt;
             $pass = password_hash($pass, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO users (fname, lname, email, pass, signup_date) VALUES ('$fname','$lname','$email','$pass','$signup_date')";
+            $sql = "INSERT INTO users (fname, username, email, pass, signup_date) VALUES ('$fname','$username','$email','$pass','$signup_date')";
             DB::run($sql);
             $_SESSION['reg_fname'] = '';
-            $_SESSION['reg_lname'] = '';
+            $_SESSION['reg_username'] = '';
             $_SESSION['reg_email'] = '';
-            echo "
-            <script>
-                $(function(){
-                    $('#registerFormWrapper').fadeOut(200);
-                    setTimeout(() => {
-                        $('#loginFormWrapper').fadeIn(200);
-                    }, 200);
-                })
-            </script>
-            ";
+
         }
     } //end of register submit event
 
@@ -120,14 +104,6 @@
         $pass = htmlspecialchars($pass);
         $pass = str_replace(' ', '', $pass);
 
-        echo"
-        <script>
-        $(function(){
-            $('#loginFormWrapper').show();
-            $('#registerFormWrapper').hide();
-        })
-        </script>
-        ";
         //$log_err_arr checks
         if (!preg_match('/^[\w@-]{8,25}$/', $pass)) {
             $log_err_arr[] = 'Password must be between 8 and 25 characters long<br>';
@@ -146,7 +122,7 @@
                 if($is_pass_correct){
                     $sql = "UPDATE users SET logged_in = 1 WHERE email = '$email'";
                     DB::run($sql);
-                    $_SESSION['user'] = $response['email'];
+                    $_SESSION['user'] = $response;
                     Header('Location: /be_project_mvc/?page=home');
 
                 } else{
@@ -185,4 +161,3 @@
 
     $form = new Login_form();
     $form->html();
-?>
