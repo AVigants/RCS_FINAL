@@ -2,23 +2,24 @@
 require_once "config/db_config.php";
 require_once __DIR__ . "/../models/posts_model.php";
 //declaring variables to prevent errors
-$fname = '';
 $user = '';
 $user_id = '';
-$profile_pic = '';
+$fname = '';
 $username = '';
-
+$profile_pic = '';
+$model = '';
 //make sure we are logged in as the correct user:
 if (isset($_SESSION['user'])) {
     $user = $_SESSION['user'];
-    $user_id = $user['id'];
-    $fname = $user['fname'];
-    $username = $user['username'];
-    $email = $user['email'];
-    $sql = "SELECT * FROM users WHERE id = '$user_id'";
-    $response = DB::run($sql)->fetch_assoc();
+    $model = new Posts_model($user['id'], $user['fname'], $user['username'], $user['email']);
+
+    $response = $model->get_user_by_id();
+    // $sql = "SELECT * FROM users WHERE id = '$user_id'";
+    // $response = DB::run($sql)->fetch_assoc();
     if ($response) {
         $user_id = $response['id'];
+        $fname = $response['fname'];
+        $username = $response['username'];
         $profile_pic = $response['profile_pic'];
         // todo declare these as global variables so I dont have to pass them in the function as params in jumbotron.php render_user_jumbotron()
     }
@@ -26,8 +27,7 @@ if (isset($_SESSION['user'])) {
     Header('Location: /be_project_mvc/?page=login');
 }
 if (isset($_POST['logout_btn'])) {
-    $sql = "UPDATE users SET logged_in = 0 WHERE id = '$user_id'";
-    DB::run($sql);
+    $model->logout();
     session_destroy();
     Header('Location: /be_project_mvc/?page=login');
 }
@@ -39,6 +39,7 @@ if (isset($_POST['submit_post'])) {
         $target_dir = "./assets/images/";
         $basename = basename($_FILES['post_pic']['name']);
         $basename = str_replace(' ', '_', $basename);
+        $basename = htmlspecialchars($basename); //just added this - check out later, if it doesnt work, tweak it
         $target_file = $target_dir . $basename;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -67,8 +68,7 @@ if (isset($_POST['submit_post'])) {
             $date_posted = date("Y-m-d");
             $about = $_POST['post_text'];
             $about = htmlspecialchars($about);
-            $model = new Posts_model();
-            $post_id = $model->add_new_post($username, $user_id, $about, $date_posted, $imageFileType);
+            $post_id = $model->add_new_post($about, $date_posted, $imageFileType);
             $target_file = $target_dir . $post_id . '.' . $imageFileType;
             if(!(file_exists($target_file))) {
                 move_uploaded_file($_FILES["post_pic"]["tmp_name"], $target_file);
@@ -78,6 +78,7 @@ if (isset($_POST['submit_post'])) {
         }
     }
 }
+//why does the page automatically update correctly if I have a new picture posted??!_----------------------------------------------------------------!!!!!!!!!!!!!!!_--------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^THE PIC AUTOMATICALLY GETS UPDATED BECAUSE THE FILE TRANSFFER TO TO THE COMPUTER FOLDER IS INSTANT. THE DB NEEDS TO UPDATE THEN IT CAN FETCH THE DATA??
 
 ?>
 <!DOCTYPE html>
@@ -161,7 +162,9 @@ if (isset($_POST['submit_post'])) {
     </nav>
 
     <!-- JUMBOTRON -->
+    <!-- //todo if this user then this jumbotron -->
     <?php include ("jumbotron.php") ?>
+    <!-- // todo if foreign user then different jumbotron -->
 
 
     <!-- ADD POST -->

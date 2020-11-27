@@ -1,13 +1,12 @@
 <?php
 $search_results = [];
-//--------------uploading a profile image--------------
+$user_id = $_SESSION['user']['id'];
 $profile_pic_err_arr = [];
 if (isset($_GET["view"]) && $_GET["view"] === "profile") {
     if (isset($_GET["user_id"])) {
-        $model = new Posts_model();
-        $foreign_user = $model->get_user_by_id($_GET['user_id']);
-        $is_following = $model->get_follower_status($user_id, $_GET['user_id']);
-        render_foreign_user_jumbotron($foreign_user, $user_id, $is_following);
+        $foreign_user = $model->get_foreign_user_by_id($_GET['user_id']);
+        $is_following = $model->get_follower_status($_GET['user_id']);
+        render_foreign_user_jumbotron($foreign_user, $is_following);
     } else {
         echo 'something went wrong';
     }
@@ -16,29 +15,32 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
 }
 
 if (isset($_POST['follow_btn'])) {
-    $model = new Posts_model();
     $model->follow_user($user_id, $_GET['user_id']);
 }
 if (isset($_POST['unfollow_btn'])) {
-    $model = new Posts_model();
     $model->unfollow_user($user_id, $_GET['user_id']);
 }
 
+//--------------uploading a new prof pic
 if (isset($_POST['profile_pic_submit'])) {
     if (isset($_FILES['profile_pic_input']['name'])) {
         $target_dir = "./assets/profile_pics/";
-        $target_file = $target_dir . basename($_FILES["profile_pic_input"]["name"]);
+        $basename = basename($_FILES['profile_pic_input']['name']);
+        $basename = str_replace(' ', '_', $basename);
+        $basename = htmlspecialchars($basename); // if it doesnt work, try removing or tweaking this
+        $target_file = $target_dir . $basename;
         $uploadOk = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $check = getimagesize($_FILES["profile_pic_input"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            $profile_pic_err_arr[] = 'File is not an image <br>';
-            $uploadOk = 0;
-        }
-        if ($_FILES["profile_pic_input"]["size"] > 500000) {
-            $profile_pic_err_arr[] = "Sorry, your file is too large.";
+        
+        // $check = getimagesize($_FILES["profile_pic_input"]["tmp_name"]);
+        // if ($check !== false) {
+        //     $uploadOk = 1;
+        // } else {
+        //     $profile_pic_err_arr[] = 'File is not an image <br>';
+        //     $uploadOk = 0;
+        // }
+        if ($_FILES["profile_pic_input"]["size"] > 20971520) {
+            $profile_pic_err_arr[] = "Sorry, your file is too large. Max allowed: 20MB";
             $uploadOk = 0;
         }
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
@@ -49,14 +51,14 @@ if (isset($_POST['profile_pic_submit'])) {
             echo "Sorry, your file was not uploaded.<br>";
             print_r($profile_pic_err_arr);
         } else {
-            if (!(file_exists($target_file))) {
+            $model->add_new_profile_pic($imageFileType);
+            $target_file = $target_dir . $_SESSION['user']['id'] . '.' . $imageFileType;
                 move_uploaded_file($_FILES["profile_pic_input"]["tmp_name"], $target_file);
                 echo 'file has been moved to designated server folder';
-            }
-            $path = 'assets/profile_pics/' . $_FILES["profile_pic_input"]["name"];
-
-            $sql = "UPDATE users SET profile_pic='$path' WHERE email='$user'";
-            DB::run($sql);
+            // if(!(file_exists($target_file))) {
+            //     move_uploaded_file($_FILES["post_pic"]["tmp_name"], $target_file);
+            //     echo 'file has been moved to designated server folder';
+            // }
             //todo: update the image automatically w//out having to reload the page
         }
     }
@@ -66,7 +68,6 @@ if (isset($_POST['search_btn'])) {
     if ((isset($_POST['search_text'])) && $_POST['search_text']) {
         $search_text = $_POST['search_text'];
         $search_text = htmlspecialchars($search_text);
-        $model = new Posts_model();
         $search_results = $model->get_search_results($search_text);
     }
 }
@@ -111,7 +112,7 @@ if (isset($_POST['search_btn'])) {
 
 <!-- FOREIGN USER JUMBOTRON -->
 
-<?php function render_foreign_user_jumbotron($foreign_user, $user_id, $is_following)
+<?php function render_foreign_user_jumbotron($foreign_user, $is_following)
 { ?>
     <div class="jumbotron jumbotron-fluid text-white text-center py-4 pb-4" style="background: deeppink;">
         <div class="container">
@@ -130,7 +131,7 @@ if (isset($_POST['search_btn'])) {
 
                 <p class="lead">"May the force be ever in your favor"</p>
                 <p class="font-italic">/'Dumbledore'/</p>
-                <?php if (!($user_id == $_GET['user_id'])) {
+                <?php if ($_SESSION['user']['id'] !== $_GET['user_id']) {
                     if (!$is_following) {
                 ?>
                         <form method="POST">
