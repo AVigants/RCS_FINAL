@@ -52,12 +52,10 @@ class Header_view
                         <!-- bugfix: when I refresh the page - another sql statement gets sent to the db resulting in another new post -->
                     </li>
                     <li class="mx-5">
-                        <form action="" method="POST" name="following_form" class="d-inline">
-                            <button class="text-white btn btn-link" type="submit" name="following_btn">
+                            <a href="?page=following" class="text-white btn btn-link">
                                 <i class="fas fa-users text-white fa-lg"></i>
                                 Following
-                            </button>
-                        </form>
+                            </a>
                     </li>
                     <li class="dropdown mx-5">
                         <button class="dropdown-toggle text-white btn btn-link" data-toggle="dropdown">
@@ -102,9 +100,9 @@ class Header_view
                                     <textarea placeholder="About..." class="text-center col-11 my-2 form-control mx-auto" name="post_text"></textarea>
                                     <div>
                                         <button type="submit" class="btn btn-warning col-4" name="submit_post">Submit</button>
-                                        <div class="btn btn-dark col-4" id="add_post_form_close_btn">
+                                        <button class="btn btn-dark col-4" id="add_post_form_close_btn">
                                             Cancel
-                                        </div>
+                                        </button>
                                         <!-- todo: add color to either bg of html, of cards, of add-card -->
                                         <!-- todo: add the image right away to the card as a preview! -->
                                         <!-- todo dont let the image be submitted if it has spaces in its name! -->

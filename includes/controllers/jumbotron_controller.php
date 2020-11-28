@@ -63,6 +63,7 @@ if (isset($_POST['search_btn'])) {
         //todo render
     }
 }
+
 if (isset($_GET["view"]) && $_GET["view"] === "profile") {
     if (isset($_GET["user_id"])) {
         $foreign_user = $model->get_foreign_user_by_id($_GET['user_id']);

@@ -42,7 +42,7 @@ class Home_view
                                 </form>
                                 <span class="col-2"><?= $post['num_likes'] ?? '0' ?></span>
                                 <br>
-                                <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $post['author_id'] ?>" class="d-block my-2"><?= $post['author'] ?></a>
+                                <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $post['author_id'] ?>" class="d-block my-2">@<?= $post['author'] ?></a>
                             </div>
                         </div>
                     </div>

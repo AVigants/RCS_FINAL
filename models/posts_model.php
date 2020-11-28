@@ -27,6 +27,24 @@
             $response = DB::run($sql)->fetch_assoc();
             return $response['profile_pic'];
         }
+        public function get_following_user_ids(){
+            $sql = "SELECT following_id FROM followers WHERE follower_id = '$this->user_id'";
+            $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
+            if($response){
+                return $response;
+            }
+        }
+        public function get_posts_from_following($following_id_arr){
+            $sql = "SELECT * FROM posts WHERE is_visible = 1 AND author_id IN (";
+            foreach ($following_id_arr as $following_id){
+                $sql_chain = $following_id['following_id'] . ', ';
+                $sql = $sql . $sql_chain;
+            }
+            $sql = substr($sql, 0, -2);
+            $sql = $sql . ')';
+            $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
+            return $response;
+        }
 
         public function get_all_posts() {
             $sql = "SELECT * FROM posts WHERE is_visible = 1 ORDER BY date_posted DESC LIMIT 16";

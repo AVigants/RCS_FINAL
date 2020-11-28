@@ -23,9 +23,10 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") { //foreign user profil
             }
         }
         $user_posts = $model->get_posts_by_foreign_user_id($_GET["user_id"]);
+        //make an if statement here in case the arr we get is empty??
         $user_posts_with_is_liked = [];
         foreach ($user_posts as $post){
-            $is_liked = $model->get_is_liked($_SESSION['user_id'], $post['id']);
+            $is_liked = $model->get_is_liked($post['id']);
             $post['is_liked'] = $is_liked;
             $user_posts_with_is_liked[] = $post;
         }
@@ -85,7 +86,8 @@ else if ((isset($_POST['search_btn']) && $search_results)){ //filter results
     }
     $view = new Home_view($posts_with_is_liked);
     $view->html();
-} 
+}
+
 else{
     if(isset($_POST['like'])){
         if(isset($_POST['post_id'])){

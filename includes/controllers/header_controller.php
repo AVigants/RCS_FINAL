@@ -33,6 +33,7 @@ $model = '';
     }
 
 
+
 //this isnt effective: it doesnt work fully when i try to access the prof pic in the jumbotron page
 
 //-----------------------uploading a new post----------------------------
