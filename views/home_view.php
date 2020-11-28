@@ -15,6 +15,7 @@ class Home_view
 
 ?>
         <!-- CARDS -->
+        
 
         <div class="container text-muted">
             <div class="row mb-5" id="cards">

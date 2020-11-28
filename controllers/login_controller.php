@@ -122,7 +122,7 @@
                 if($is_pass_correct){
                     $sql = "UPDATE users SET logged_in = 1 WHERE email = '$email'";
                     DB::run($sql);
-                    $_SESSION['user'] = $response;
+                    $_SESSION['user_id'] = $response['id'];
                     Header('Location: /be_project_mvc/?page=home');
 
                 } else{

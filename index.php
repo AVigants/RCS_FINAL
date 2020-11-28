@@ -9,7 +9,7 @@
         if($_GET['page'] === 'login'){
             require_once $file;
         } 
-        else if (isset($_SESSION['user'])){
+        else if (isset($_SESSION['user_id'])){
             require_once $file;
         } 
         else{

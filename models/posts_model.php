@@ -4,12 +4,12 @@
         private $user_id;
         private $fname;
         private $username;
-        private $email;
-        public function __construct($user_id, $fname, $username, $email){
+        // private $email;
+        public function __construct($user_id, $fname, $username){
             $this->user_id = $user_id;
             $this->fname = $fname;
             $this->username = $username;
-            $this->email = $email;
+            // $this->email = $email;
         }
 
         public function get_user_by_id(){
@@ -21,6 +21,11 @@
             $sql = "SELECT username, about, profile_pic FROM users WHERE id = '$foreign_user_id'";
             $response = DB::run($sql)->fetch_assoc();
             return $response;
+        }
+        public function get_profile_pic(){
+            $sql = "SELECT profile_pic FROM users WHERE id = '$this->user_id'";
+            $response = DB::run($sql)->fetch_assoc();
+            return $response['profile_pic'];
         }
 
         public function get_all_posts() {

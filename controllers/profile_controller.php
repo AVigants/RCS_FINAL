@@ -1,16 +1,10 @@
 <?php
-    require_once __DIR__ . "/../includes/header.php";
+    require_once __DIR__ . "/../includes/controllers/jumbotron_controller.php";
     require_once __DIR__ . "/../views/profile_view.php";
+$posts = [];
 
-$model = new Posts_model($user['id'], $user['fname'], $user['username'], $user['email']);
-$posts = $model->get_all_current_user_posts();
-
-$view = new Profile_view($posts);
-$view->html();
-//THIS MIGHT BE WHY I DONT NEED TO REFRESH THE PAGE TO SEE THE CHANGES!!!!!!^^-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------!!!!!!!!!!!!!!!!!!!! every time I visit this page it fetches the latest data!!!
 
 //declaring variables to prevents errors
-$posts = [];
 // $sql = "SELECT * FROM posts WHERE author = '$user' ORDER BY date_posted DESC";
 // $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
 // if ($response) {
@@ -33,10 +27,17 @@ if (isset($_POST['is_visible_btn'])) {
         $is_visible = 1;
     }
     $model->update_is_visible($_POST['post_id'], $is_visible);
+    
 }
 if(isset($_POST['save_post'])){
     $about = $_POST['edit_post_text'];
     $about = htmlspecialchars($about);
     $model->update_post($_POST['post_id'], $about);
 }
+
+$model = new Posts_model($_SESSION['user_id'], $_SESSION['fname'], $_SESSION['username']);
+$posts = $model->get_all_current_user_posts();
+
+$view = new Profile_view($posts);
+$view->html();
 ?>
