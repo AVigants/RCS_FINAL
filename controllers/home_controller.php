@@ -64,13 +64,19 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") { //foreign user profil
             }
         }
         $post = $model->get_post_by_id($_GET["post_id"]);
-        $post_with_is_liked = [];
-        $is_liked = $model->get_is_liked($post['id']);
-        $post_with_is_liked = $post;
-        $post_with_is_liked['is_liked'] = $is_liked;
-        $comments = $model->get_comments_by_post_id($_GET['post_id']);
-        $view = new Home_view($post_with_is_liked, $comments);
-        $view->single_post_html();
+        //check for visability
+        if($post['author_id'] == $_SESSION['user_id'] || $post['is_visible']){
+            $post_with_is_liked = [];
+            $is_liked = $model->get_is_liked($post['id']);
+            $post_with_is_liked = $post;
+            $post_with_is_liked['is_liked'] = $is_liked;
+            $comments = $model->get_comments_by_post_id($_GET['post_id']);
+            $view = new Home_view($post_with_is_liked, $comments);
+            $view->single_post_html();
+        } else {
+            echo 'Sorry but this post has either been removed or is private!';
+        }
+        
         // todo: if I click on an image while its vis is 0 then I get a bunch of errors
     }
     else{

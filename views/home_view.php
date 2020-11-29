@@ -74,7 +74,7 @@ class Home_view
 
                         <div class="card-block pb-2 text-center my-3">
                             <div>
-                                <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $this->posts['author_id'] ?>" class="d-block mb-1"><?= $this->posts['author'] ?></a>
+                                <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $this->posts['author_id'] ?>" class="d-block mb-1">@<?= $this->posts['author'] ?></a>
                                 <p class=""><?= $this->posts['about'] ?></p>
                                 <hr>
                                 <span class="col-2"><?= $this->posts['num_comments'] ?></span>
@@ -99,7 +99,7 @@ class Home_view
                             </div>
                             <?php foreach ($this->comments as $comment) { ?>
                                 <div class="text-justify mx-3">
-                                    <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $comment['author_id'] ?>"><?= $comment['author'] ?></a>
+                                    <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $comment['author_id'] ?>">@<?= $comment['author'] ?></a>
                                     <span class="text-dark font-italic"><?= $comment['time_posted'] ?></span> <br>
                                     <p><?= $comment['comment_text'] ?></p>
                                 </div>

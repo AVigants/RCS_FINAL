@@ -21,6 +21,7 @@
         }
         $following_user_ids_arr = $model->get_following_user_ids();
         if($following_user_ids_arr){
+            $username_handles = $model->get_username_handles($following_user_ids_arr);
             $posts = $model->get_posts_from_following($following_user_ids_arr);
             if($posts){
                 $posts_with_is_liked = [];
@@ -29,7 +30,7 @@
                     $post['is_liked'] = $is_liked;
                     $posts_with_is_liked[] = $post;
                 }
-                $view = new Following_view($posts_with_is_liked);
+                $view = new Following_view($posts_with_is_liked, $username_handles);
                 $view->html();
             } else{
                 echo "You aren't following anyone!";
@@ -37,7 +38,6 @@
             }
         } else{
             echo "You aren't following anyone!";
-            Header('Location: /be_project_mvc/?page=home');
         }
     }
 ?>

@@ -2,9 +2,10 @@
 class Following_view
 {
     private $posts;
-    public function __construct($data = [])
+    public function __construct($data = [], $usernames = [])
     {
         $this->posts = $data;
+        $this->usernames = $usernames;
     }
     public function html()
     {
@@ -13,7 +14,6 @@ class Following_view
 ?>
         <!-- CARDS -->
         
-
         <div class="container text-muted">
             <div class="row mb-5" id="cards">
                 <?php foreach ($this->posts as $post) { ?>
@@ -46,7 +46,19 @@ class Following_view
                 <?php } ?>
             </div>
         </div>
+
+        <div class="container">
+        <ul class="list-group text-center col-6 mx-auto mb-5">
+        <?php foreach($this->usernames as $username){ ?>
+            <a href="/be_project_mvc/?page=home&view=profile&user_id=<?= $username['id'] ?>" class="list-group-item">@<?= $username['username'] ?></a>
+        <?php } ?>
+        </ul>
+        </div>
+
+
         <?php
     }
 }
         ?>
+        </body>
+        </html>

@@ -57,7 +57,7 @@ class Header_view
                                 Following
                             </a>
                     </li>
-                    <li class="dropdown mx-5">
+                    <!-- <li class="dropdown mx-5">
                         <button class="dropdown-toggle text-white btn btn-link" data-toggle="dropdown">
                             <i class="fas fa-cog text-white fa-lg"></i>
                             Settings
@@ -67,7 +67,7 @@ class Header_view
                             <a class="dropdown-item" href="#" id="gridViewBtn"><i class="fas fa-th"></i> Grid View</a>
                             <a class="dropdown-item" href="#" id="clearArrayBtn"><i class="fas fa-info-circle"></i> About</a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="mx-5">
                         <form action="" method="POST" name="logout_submit" class="d-inline">
                             <button class="text-white btn btn-link" type="submit" name="logout_btn">

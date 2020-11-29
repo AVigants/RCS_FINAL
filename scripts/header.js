@@ -33,6 +33,24 @@ $(function(){
     });
     $('#cancel_comment_btn').click(e=>{
         $('#comment_textarea').slideUp();
+    });
 
-    })
+    $('#edit_about_btn').click(e=>{
+        console.log('lmaoooo');
+        e.preventDefault();
+        let post_id = e.target.id;
+        $('#about').fadeOut(100);
+        setTimeout(() => {
+            $('#edit_about_form').fadeIn(100);
+        }, 100);
+    });
+    $('#cancel_edit_about_btn').click(e=>{
+        e.preventDefault();
+        let post_id = e.target.id;
+        $('#edit_about_form').fadeOut(100);
+        setTimeout(() => {
+            $('#about').fadeIn(100);
+        }, 100);
+    });
+
 })

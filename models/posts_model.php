@@ -11,7 +11,6 @@
             $this->username = $username;
             // $this->email = $email;
         }
-
         public function get_user_by_id(){
             $sql = "SELECT id, fname, username, about, profile_pic FROM users WHERE id = '$this->user_id'";
             $response = DB::run($sql)->fetch_assoc();
@@ -27,12 +26,28 @@
             $response = DB::run($sql)->fetch_assoc();
             return $response['profile_pic'];
         }
+        public function get_user_about(){
+            $sql = "SELECT about FROM users WHERE id = '$this->user_id'";
+            $response = DB::run($sql)->fetch_assoc();
+            return $response;
+        }
         public function get_following_user_ids(){
             $sql = "SELECT following_id FROM followers WHERE follower_id = '$this->user_id'";
             $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
             if($response){
                 return $response;
             }
+        }
+        public function get_username_handles($following_user_ids_arr){
+            $sql = "SELECT id, username FROM users WHERE id IN (";
+            foreach ($following_user_ids_arr as $following_id){
+                $sql_chain = $following_id['following_id'] . ', ';
+                $sql = $sql . $sql_chain;
+            }
+            $sql = substr($sql, 0, -2);
+            $sql = $sql . ')';
+            $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
+            return $response;
         }
         public function get_posts_from_following($following_id_arr){
             $sql = "SELECT * FROM posts WHERE is_visible = 1 AND author_id IN (";
@@ -85,13 +100,17 @@
             $sql = "UPDATE users SET profile_pic = '$path' WHERE id = '$this->user_id'";
             DB::run($sql);
         }
+        public function update_user_about($text){
+            $sql = "UPDATE users SET about = '$text' WHERE id = '$this->user_id'";
+            DB::run($sql);
+        }
         public function get_posts_by_foreign_user_id($foreign_user_id){
             $sql = "SELECT * FROM posts WHERE author_id = '$foreign_user_id' AND is_visible = 1 ORDER BY date_posted DESC";
             $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }
         public function get_post_by_id($post_id){
-            $sql = "SELECT * FROM posts WHERE id = '$post_id' AND is_visible = 1";
+            $sql = "SELECT * FROM posts WHERE id = '$post_id'";
             $response = DB::run($sql)->fetch_assoc();
             return $response;
         }
@@ -167,6 +186,13 @@
             $sql_posts = "SELECT *
             FROM posts
             WHERE is_visible = 1 AND about LIKE '%$search_text%' or author LIKE '%$search_text%'";
+            $response = DB::run($sql_posts)->fetch_all(MYSQLI_ASSOC);
+            return $response;
+        }
+        public function get_search_results_by_session_user($search_text){
+            $sql_posts = "SELECT *
+            FROM posts
+            WHERE author_id = '$this->user_id' AND about LIKE '%$search_text%'";
             $response = DB::run($sql_posts)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }

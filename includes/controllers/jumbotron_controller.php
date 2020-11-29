@@ -55,12 +55,24 @@ if (isset($_POST['profile_pic_submit'])) {
         }
     }
 }//end of upload profile picture
+if(isset($_POST['about_submit'])){
+    if(isset($_POST['about_text'])){
+        $text = $_POST['about_text'];
+        $text = htmlspecialchars($text);
+        $model->update_user_about($text);
+    }
+}
 if (isset($_POST['search_btn'])) {
+    
     if ((isset($_POST['search_text'])) && $_POST['search_text']) {
         $search_text = $_POST['search_text'];
         $search_text = htmlspecialchars($search_text);
-        $search_results = $model->get_search_results($search_text);
+        if(isset($_GET['page']) && $_GET['page'] == 'profile'){
+            $search_results = $model->get_search_results_by_session_user($search_text);
+        } else{
+            $search_results = $model->get_search_results($search_text);
         //todo render
+        }
     }
 }
 
@@ -76,7 +88,8 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
 } else {
     $view = new User_jumbotron_view();
     $profile_pic = $model->get_profile_pic();
-    $view->user_jumbotron_html($profile_pic);
+    $about = $model->get_user_about();
+    $view->user_jumbotron_html($profile_pic, $about['about']);
     //this shit doesnt work for some reaason again!!!!!!!!!!!!!!!!!!!!! whcih means for user also doesnt work..
 }
 ?>
