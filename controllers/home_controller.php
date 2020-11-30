@@ -10,20 +10,15 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") { //foreign user profil
             if(isset($_POST['post_id'])){
                 $post_id = $_POST['post_id'];
                 $model->like($post_id);
-            } else {
-                // todo: add smth here
             }
         }
         if(isset($_POST['unlike'])){
             if(isset($_POST['post_id'])){
                 $post_id = $_POST['post_id'];
                 $model->unlike($post_id);
-            } else{
-                // todo add smth here
             }
         }
         $user_posts = $model->get_posts_by_foreign_user_id($_GET["user_id"]);
-        //make an if statement here in case the arr we get is empty??
         $user_posts_with_is_liked = [];
         foreach ($user_posts as $post){
             $is_liked = $model->get_is_liked($post['id']);
@@ -44,23 +39,18 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") { //foreign user profil
                 $comment = htmlspecialchars($comment);
                 $time_posted = date("Y-m-d H:i:s");
                 $model->add_comment($time_posted, $comment, $_GET['post_id']);
-                //todo fix the date = add 1 hr
             }
         }
         if(isset($_POST['like'])){
             if(isset($_POST['post_id'])){
                 $post_id = $_POST['post_id'];
                 $model->like($post_id);
-            } else {
-                // todo: add smth here
             }
         }
         if(isset($_POST['unlike'])){
             if(isset($_POST['post_id'])){
                 $post_id = $_POST['post_id'];
                 $model->unlike($post_id);
-            } else{
-                // todo add smth here
             }
         }
         $post = $model->get_post_by_id($_GET["post_id"]);
@@ -76,8 +66,6 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") { //foreign user profil
         } else {
             echo "<div class='text-center display-4 text-danger bg-dark py-2'>Sorry, but this post has either been removed or is private! :c</div>";
         }
-        
-        // todo: if I click on an image while its vis is 0 then I get a bunch of errors
     }
     else{
         echo "<div class='text-center display-4 text-danger bg-dark py-2'>Something went wrong! :c</div>";
@@ -93,7 +81,6 @@ else if ((isset($_POST['search_btn']) && $search_results)){ //filter results
     $view = new Home_view($posts_with_is_liked);
     $view->html();
 }
-
 else{
     if(isset($_POST['like'])){
         if(isset($_POST['post_id'])){
@@ -118,7 +105,6 @@ else{
         $post['is_liked'] = $is_liked;
         $posts_with_is_liked[] = $post;
     }
-
     $view = new Home_view($posts_with_is_liked);
     $view->html();
 }

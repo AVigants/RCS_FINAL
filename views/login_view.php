@@ -1,5 +1,5 @@
 <?php
-class Login_form
+class Login_view
 {
     public function html()
     {
@@ -10,7 +10,7 @@ class Login_form
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="./scripts/login.js"></script>
             <link rel="stylesheet" href="assets/login.css">
-            <title>MVC IN PROGRESS</title>
+            <title>RCS Final Project</title>
         </head>
 
         <body>
@@ -40,7 +40,6 @@ class Login_form
                         <button type="submit" class="btn btn-primary btn-block" name="log_submit">Log In</button>
                     </div>
                     <div class="clearfix">
-                        <!-- <label class="float-left form-check-label"><input type="checkbox" id="rememberMe" value="rememberMe"> Remember me</label> -->
                         <a href="#" class="">Forgot Password?</a>
                 </form>
                 <!-- PASSWORD RESET -->

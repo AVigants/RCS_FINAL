@@ -36,7 +36,6 @@
             }
         }
     } else exit("Page not found! :(");
-    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +46,7 @@
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
             <script src="./scripts/header.js"></script>
             <link rel="stylesheet" href="./assets/header.css">
-            <title>BE_project_mvc</title>
+            <title>RCS Final Project</title>
 <body>
 <div class="jumbotron jumbotron-fluid text-white text-center" style="background: #73a2ba;">
 <h1 class="display-1">Hello</h1>
@@ -59,8 +58,5 @@
         <button type="submit" name="npass_submit" class="btn btn-warning my-3 col-4">Update Password!</button>
     </form>
     </div>
-    
-    
 </body>
 </html>
-<!-- todo: set a timeout that destroys the link/code in 5 minutes in case the user changes his mind about reseting his/her pass -->

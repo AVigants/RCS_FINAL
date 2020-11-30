@@ -22,20 +22,20 @@ class Pass_recovery{
             $mail->isSMTP();                                            // Send using SMTP
             $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = 'art.vigants@gmail.com';                     // SMTP username
-            $mail->Password   = 'everybodylies';                               // SMTP password
+            $mail->Username   = 'MY_EMAIL@gmail.com';                     // SMTP username
+            $mail->Password   = 'MY_PASSWORD';                               // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
             $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
             //Recipients
-            $mail->setFrom('art.vigants@gmail.com', 'Password Reset!');
+            $mail->setFrom('MY_EMAIL@gmail.com', 'Password Reset!');
             $mail->addAddress($fpass_email);     // Add a recipient
-            $mail->addReplyTo('no-reply@ArtursVigants.com', 'No Reply');
+            $mail->addReplyTo('no-reply@MY_EMAIL.com', 'No Reply');
 
 
             // Attachments
 
-            // Content
+            // Contentmvc
             $url =  $_SERVER["HTTP_HOST"] . dirname($_SERVER['PHP_SELF']) . "/forgot_pass_view.php?code=$code";
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'Password Reset Link!';

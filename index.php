@@ -15,10 +15,10 @@
             require_once $file;
         } 
         else{
-        Header("Location: /be_project_mvc/?page=login");
+        Header("Location: /RCS_FINAL/?page=login");
         }
     } else {
-        Header("Location: /be_project_mvc/?page=login");
+        Header("Location: /RCS_FINAL/?page=login");
     }
 ?>
 

@@ -4,12 +4,10 @@
         private $user_id;
         private $fname;
         private $username;
-        // private $email;
         public function __construct($user_id, $fname, $username){
             $this->user_id = $user_id;
             $this->fname = $fname;
             $this->username = $username;
-            // $this->email = $email;
         }
         public function get_user_by_id(){
             $sql = "SELECT id, fname, username, about, profile_pic FROM users WHERE id = '$this->user_id'";
@@ -122,12 +120,6 @@
             $response = DB::run($sql);
             return $response;
         }
-
-        // private function get_num_likes($post_id){
-        //     $sql = "SELECT COUNT(id) AS num_likes FROM likes WHERE post_id = '$post_id'";
-        //     $response = DB::run($sql);
-        //     return $response;
-        // }
         public function add_comment($time_posted, $comment_text, $post_id){
             $comment_text = DB::escape_string($comment_text);
             $sql = "INSERT INTO comments (author, author_id, time_posted, comment_text, post_id) VALUES ('$this->username', '$this->user_id','$time_posted', '$comment_text', '$post_id')";
@@ -138,7 +130,6 @@
             $sql_update_num_comments_in_posts = "UPDATE posts SET num_comments = '$num_comments' WHERE id = '$post_id'";
             DB::run($sql_update_num_comments_in_posts);
         }
-        //make these 2 blocks of code below take in arrays. We're going to store all the likes in an array and when the user logs out then the likes will get actually submitted. Or when an action takes place. So it doesnt refresh the page every single time we click on 'like' for now Ill leave it as is
         public function like($post_id){
             $sql = "INSERT INTO likes (user_id, post_id) VALUES ('$this->user_id', '$post_id')";
             DB::run($sql);
@@ -148,7 +139,6 @@
             $sql_update_num_likes_in_posts = "UPDATE posts SET num_likes = '$num_likes' WHERE id = '$post_id'";
             DB::run($sql_update_num_likes_in_posts);
         }
-        //can I make these 2 ^ \/ blocks of code not repeat themselves?
         public function unlike($post_id){
             $sql = "DELETE FROM likes WHERE user_id = '$this->user_id' AND post_id = '$post_id'";
             DB::run($sql);
@@ -158,9 +148,7 @@
             $sql_update_num_likes_in_posts = "UPDATE posts SET num_likes = '$num_likes' WHERE id = '$post_id'";
             DB::run($sql_update_num_likes_in_posts);
         }
-        
-                // todo sql attacks might be possible here - better make sure the data thats fed here is legit
-        public function get_follower_status($foreign_user_id){
+            public function get_follower_status($foreign_user_id){
             $sql = "SELECT * FROM followers WHERE follower_id = '$this->user_id' AND following_id = '$foreign_user_id'";
             $response = DB::run($sql);
             if ($response->num_rows === 0) {
@@ -200,7 +188,6 @@
             $response = DB::run($sql_posts)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }
-
         public function logout(){
             $sql = "UPDATE users SET logged_in = 0 WHERE id = '$this->user_id'";
             DB::run($sql);

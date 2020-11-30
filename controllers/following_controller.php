@@ -9,7 +9,6 @@
                 $model->like($_POST['post_id']);
             } else {
                 echo "<div class='text-center display-4 text-danger bg-dark py-2'>Something went wrong! :c</div>";
-                //add smth here? todo
             }
         }
         if(isset($_POST['unlike'])){

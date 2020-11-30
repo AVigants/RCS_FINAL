@@ -2,10 +2,7 @@
     require_once __DIR__ . "/../config/db_config.php";
     require_once __DIR__ . "/../views/login_view.php";
     require_once __DIR__ . "/../forgot_pass.php";
-
-    // todo: add email availability checker
     
-    //declaring variables to prevent errors
     $fname = '';
     $username = '';
     $email = '';
@@ -80,7 +77,7 @@
             $err_arr[] = 'Passwords must match<br>';
         }
         if ($err_arr) {
-            // print_r($err_arr);
+            print_r($err_arr);
         } else {
             $salt = "o#A*&1*71^0'}[m";
             $pass = $pass . $salt;
@@ -125,7 +122,7 @@
                     $sql = "UPDATE users SET logged_in = 1 WHERE email = '$email'";
                     DB::run($sql);
                     $_SESSION['user_id'] = $response['id'];
-                    Header('Location: /be_project_mvc/?page=home');
+                    Header('Location: /RCS_FINAL/?page=home');
 
                 } else{
                     $log_err_arr[] = "Incorrect Password! <br>";
@@ -159,5 +156,5 @@
     } //end of forgot password submit event
 
 
-    $form = new Login_form();
+    $form = new Login_view();
     $form->html();
