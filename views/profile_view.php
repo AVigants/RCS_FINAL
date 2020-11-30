@@ -20,7 +20,7 @@ class Profile_view
                     <div class="col-md-6 col-lg-3 my-3">
                         <div class="card text-center">
                             <a href="/be_project_mvc/?page=home&view=post&post_id=<?= $post['id'] ?>">
-                                <img src="<?= $post['img'] ?>" <?php if (!$post['is_visible']) echo '0.5' ?>;" class="can_be_clicked img-top img-fluid cards">
+                                <img src="<?= $post['img'] ?>" style="opacity:<?php if (!$post['is_visible']) echo '0.5' ?>;" class="can_be_clicked img-top img-fluid cards">
                             </a>
                                 <div class="card-block p-1">
 
