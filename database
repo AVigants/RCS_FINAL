@@ -1,0 +1,69 @@
+//DATABASE NAME: be_project
+
+CREATE TABLE comments (
+    id INT NOT NULL AUTO_INCREMENT,
+    author VARCHAR (100) NOT NULL,
+	author_id INT (9),
+	time_posted DATETIME,
+	comment_text VARCHAR (255),
+	post_id INT (9),
+	PRIMARY KEY (id)
+
+);
+
+CREATE TABLE followers (
+
+​	id INT NOT NULL AUTO_INCREMENT,
+​	follower_id INT (9),
+​	following_id (9),
+​	PRIMARY KEY (id)
+
+);
+
+CREATE TABLE likes (
+
+​	id INT NOT NULL AUTO_INCREMENT,
+​	user_id INT (11),
+​	post_id (11),
+​	PRIMARY KEY (id)
+
+);
+
+CREATE TABLE posts (
+
+​	id INT NOT NULL AUTO_INCREMENT,
+​	author VARCHAR (50) DEFAULT NULL,
+​	author_id INT (11) DEFAULT NULL,
+​	img VARCHAR (255),
+​	about VARCHAR (255),
+​	date_posted DATETIME,
+​	num_comments INT (10),
+​	num_likes INT (10),
+​	is_visible BOOLEAN DEFAULT 1,
+​	PRIMARY KEY (id)
+
+);
+
+CREATE TABLE reset_password (
+
+​	id INT NOT NULL AUTO_INCREMENT,
+​	code VARCHAR (255),
+​	email VARCHAR (255),
+​	PRIMARY KEY (id)
+
+);
+
+CREATE TABLE users (
+
+​	id INT NOT NULL AUTO_INCREMENT,
+​	fname VARCHAR (50),
+​	username VARCHAR (25),
+​	email VARCHAR (60),
+​	pass VARCHAR(255),
+​	signup_date DATE,
+​	about VARCHAR (255) DEFAULT NULL,
+​	logged_in BOOLEAN,
+​	profile_pic VARCHAR (100) DEFAULT './assets/profile_pics/default.jpg',
+​	PRIMARY KEY (id)
+
+);
