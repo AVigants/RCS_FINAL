@@ -13,6 +13,8 @@ kad pirmo reizi mēģināju nosūtīt uz epastu paroles atjaunošanas linku.
 
 4)login_controller.php -> line 4 -> atkomentēt forgot_pass.php.
 
+Ko es iemācījos projekta izpildes ietvarā:
+
 1)MVC ir laba lieta - ļoti viegli orientēties pa failiem ja kodu rindas iet pāri 200+. Ir mape ar nosaukumu 'includes', kura satur navigācijas līknes (header) un banera (jumbotron) kontrolierus un view failus. Nospriedu nepārrakstīt visu to kodu, ja ir jāizmanto uz daudzām lapām viens un tas pats koda bloks.
 
 2)Nebaidīties dot, ja nepieciešams, garākus nosaukumus mainīgajiem.
