@@ -26,10 +26,10 @@ vietās, kur bez tā var iztikt un otrādi. Search funkcija, teiksim, neuztaisa 
 5)Daudz drošības pasākumu: strip tags, sql attacks, real_escape_string, password utml hashing, str_replace(' ', ''), pārbaude vai fails ko lietotājs mēģina augšuplādēt tie
 šām ir fails, kuru sagaidām, vai tā izmērs nav vairāki terabaiti utt.
 
-6) Nav labi saglabāt pašas bildes datubāzē - labāk ir saglabāt lokāli uz dzelža un norādīt ceļu datubāzē. Tai pašā laikā, netērēt lieki datus un vecos failus dzēst ārā - 
+6)Nav labi saglabāt pašas bildes datubāzē - labāk ir saglabāt lokāli uz dzelža un norādīt ceļu datubāzē. Tai pašā laikā, netērēt lieki datus un vecos failus dzēst ārā - 
 teiskim, ja lietotājs izdomā nomainīt savu profila bildi, tad veco bildi nav vērts glabāt.
 
-7) Faili netiek atpazīti, ja faila nosaukums satur atstarpes. Tāpēc noskaukumi tiek iedoti unikāli, balstoties un user id (katram lietotājam ir tikai 1 sava bilde, kura tiek glabāta mapē profile_pics) vai balstoties uz post id. 
+7)Faili netiek atpazīti, ja faila nosaukums satur atstarpes. Tāpēc noskaukumi tiek iedoti unikāli, balstoties un user id (katram lietotājam ir tikai 1 sava bilde, kura tiek glabāta mapē profile_pics) vai balstoties uz post id. 
 
 Problēmas:
 
