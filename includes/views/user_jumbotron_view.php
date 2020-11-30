@@ -76,7 +76,7 @@ class User_jumbotron_view
 
                     <form action="" method="POST">
                         <div class="input-group mx-auto">
-                            <input class="form-control rounded-pill col-sm-12  col-md-10 col-lg-7" type="search" placeholder="Search" id="search_input_field" name="search_text">
+                            <input class="form-control rounded-pill col-sm-12  col-md-10 col-lg-7" type="search" placeholder="Search" id="search_input_field" name="search_text" autofocus>
                             <span class="input-group-append">
                                 <button class="btn rounded-pill border-0 ml-n5" type="submit" name="search_btn" id="search_btn">
                                     <i class="fas fa-search"></i>

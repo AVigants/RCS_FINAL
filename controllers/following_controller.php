@@ -8,7 +8,7 @@
             if(isset($_POST['post_id'])){
                 $model->like($_POST['post_id']);
             } else {
-                echo "Something went wrong";
+                echo "<div class='text-center display-4 text-danger bg-dark py-2'>Something went wrong! :c</div>";
                 //add smth here? todo
             }
         }
@@ -16,7 +16,7 @@
             if(isset($_POST['post_id'])){
                 $model->unlike($_POST['post_id']);
             } else{
-                echo "Something went wrong";
+                echo "<div class='text-center display-4 text-danger bg-dark py-2'>Something went wrong! :c</div>";
             }
         }
         $following_user_ids_arr = $model->get_following_user_ids();
@@ -33,11 +33,10 @@
                 $view = new Following_view($posts_with_is_liked, $username_handles);
                 $view->html();
             } else{
-                echo "You aren't following anyone!";
-                Header('Location: /be_project_mvc/?page=home');
+                echo "<div class='text-center display-4 text-danger bg-dark py-2'>You aren't following anyone! :c</div>";
             }
         } else{
-            echo "You aren't following anyone!";
+            echo "<div class='text-center display-4 text-danger bg-dark py-2'>You aren't following anyone! :c</div>";
         }
     }
 ?>

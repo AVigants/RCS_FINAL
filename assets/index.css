@@ -35,6 +35,18 @@
     /* text-align: center; */
     /* border-radius: 5px; */
 }
+#navbar{
+    background: #333;
+}
+.cards{
+    vertical-align: middle;
+    width: 510px;
+    height: 250px;
+    object-fit: cover;
+}
+#comment_textarea{
+    display: none;
+}
 
 /* #innerDiv{
     position: absolute;

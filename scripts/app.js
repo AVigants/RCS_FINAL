@@ -1,100 +1,82 @@
 $(function () {
-    //----------------------------dom queries-----------------------------------------------------
-    const regFormInputs = $('#registerForm input');
-    const passField = document.querySelector('#registerForm > div:nth-child(6) > input');
-    const loginEmail = document.querySelector('#loginForm > div:nth-child(3) > input');
-    const loginPass = document.querySelector('#loginForm > div:nth-child(4) > input');
-    const forgotPass = $('#loginForm > div.clearfix > a');
-    const passResetEmailField = document.querySelector('#passResetEmail');
-    const registeredUserSpan = document.getElementById('registeredUserSpan');
-    //-------------------variable declaration to prevent errors-----------------------------------------------
-    const patterns = {
-        reg_fname: /^[a-zA-Z]{2,25}$/,
-        reg_username: /^[a-zA-Z]{2,25}$/,
-        reg_email: /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
-        reg_pass: /^[\w@-]{8,25}$/,
-        reg_cpass: /^[\w@-]{8,25}$/,
-    };
-    let reg_values = {
-    reg_fname: '',
-    reg_username: '',
-    reg_email: '',
-    reg_pass: '',
-    reg_cpass: ''
-    };
-    //--------------------------------show/hide 'login/register' forms with JQuery -----------------------
-    $('#registerHref').click(e => {
-        $('#loginFormWrapper').fadeOut(200);
+    $("#add_post").click(e => {
+        $('#add_post_form_bg').fadeIn(250);
+        $('#add_post_form').fadeIn(250);
+        $('#search_btn').fadeOut(250);
+    });
+    $('#add_post_form_close_btn').click(e => {
+        $('#add_post_form_bg').fadeOut(250);
+        $('#add_post_form').fadeOut(250);
+        $('#search_btn').fadeIn(250);
+    });
+    $('.edit_btn').click(e => {
+        e.preventDefault();
+        let post_id = e.target.id;
+        $(`.default_card_id_${post_id}`).fadeOut(100);
         setTimeout(() => {
-            $('#registerFormWrapper').fadeIn(200);
-        }, 200);
-    });
-    $('#loginHref').click(e => {
-        $('#registerFormWrapper').fadeOut(200);
-        setTimeout(() => {
-            $('#loginFormWrapper').fadeIn(200);
-        }, 200);
-    });
-
-    //---------------------------------show/hide 'forgot password' form with JQuery--------------------------------------------
-    forgotPass.click(e => {
-        $('#passResetForm').slideToggle();
-    })
-    //------------------------register form data validation on keyup event---------------------------------
-    $('#registerForm > div > input').keyup(e => {
-        validateOnKeyup(e.target.value.trim(), e.target);
-    });
-    function validateOnKeyup(data, field) {
-        if (patterns[field.name].test(data)) {
-            field.classList.add('valid')
-            field.classList.remove('invalid');
-            reg_values[field.name] = data;
-        } else {
-            field.classList.add('invalid');
-            field.classList.remove('valid');
-            reg_values[field.name] = '';
-        }
-    }
-
-    //--------------------reg_submit event-------------------
-    // $('#registerForm').submit(e => {
-    //     if (reg_values.reg_fname && reg_values.reg_username && reg_values.reg_email && reg_values.reg_pass && reg_values.reg_cpass) {
-    //         renderThankYou(reg_values.reg_fname);
-    //     }
-    // });
-    // thank you for registering---------------------------------
-    function renderThankYou(fname) {
-        $('#outerDiv').fadeIn();
-        $('#innerDiv span').text(fname)
-        $(document).keyup(function (e) {
-            if (e.key === "Escape") {
-                $('#outerDiv').fadeOut(100);
+            $(`.edit_card_id_${post_id}`).fadeIn(100);
+        }, 100);
+        $(document).keyup(e => {
+            if (e.keyCode === 27) {
+                $(`.edit_card_id_${post_id}`).fadeOut(100);
+                setTimeout(() => {
+                    $(`.default_card_id_${post_id}`).fadeIn(100);
+                }, 100);
             }
         });
+    });
+    $('.cancel_btn').click(e => {
+        e.preventDefault();
+        let post_id = e.target.id;
+        $(`.edit_card_id_${post_id}`).fadeOut(100);
+        setTimeout(() => {
+            $(`.default_card_id_${post_id}`).fadeIn(100);
+        }, 100);
+    });
+    $('#profile_pic_label').click(e => {
+        $('#profile_pic_submit').fadeIn();
+    });
+    $('#profile_pic_submit').click(e => {
+        $('#profile_pic_submit').fadeOut();
+    });
+    $('#comment_btn').click(e => {
+        $('#comment_textarea').slideDown();
+    });
+    $('#cancel_comment_btn').click(e => {
+        $('#comment_textarea').slideUp();
+    });
 
-        $('#close').click(e => {
-            $('#outerDiv').fadeOut(100);
-        });
-        //rainbow colored text
-        $('innerDiv span').text(userObj.fname);
-        for (let i = 0; i < 360; i++) {
+    $('#edit_about_btn').click(e => {
+        e.preventDefault();
+        let post_id = e.target.id;
+        $('#about').fadeOut(100);
+        setTimeout(() => {
+            $('#edit_about_form').fadeIn(100);
+        }, 100);
+    });
+    $('#cancel_edit_about_btn').click(e => {
+        $('#edit_about_form').fadeOut(100);
+        setTimeout(() => {
+            $('#about').fadeIn(100);
+        }, 100);
+    });
+    $(document).keyup(e => {
+        if (e.keyCode === 27) {
+            $('#add_post_form_bg').fadeOut(250);
+            $('#add_post_form').fadeOut(250);
+            $('#search_btn').fadeIn(250);
+            $('#comment_textarea').slideUp();
+            $('#edit_about_form').fadeOut(100);
             setTimeout(() => {
-                registeredUserSpan.style.color = `hsl(${i}, 100%, 50%)`;
-            }, i * 10);
-        };
-        setTimeout(() => {
-            $('#outerDiv').fadeOut(100);
-        }, 3600);
-        //go back to login form
-        $('#registerFormWrapper').fadeOut(200);
-        setTimeout(() => {
-            $('#loginFormWrapper').fadeIn(200);
-        }, 200);
-    }//end of renderThankYou
-})//end of JQuery block
+                $('#about').fadeIn(100);
+            }, 100);
+            $('#profile_pic_submit').fadeOut();
+        }
+    });
+    $(document).keyup(e => {
+        if (e.keyCode === 144) {
+            $('.card-block').slideToggle();
+        }
+    });
 
-//-------------------------COMMENTS-------------------------------------
-// todo: dom queries is a mess
-//todo: thank you for registering - once we get the confirmation form php. also - store the script in local storage? and fire it after some time...
-// todo:register form submit event and thank you rennder is buggy
-//bugfix: thankyou render outer div doesnt fit the whole screen - you can scroll down.
+})

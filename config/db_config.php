@@ -24,7 +24,10 @@ class DB {
         static::$connection->close();
         static::$connection = null;
     }
-
+    public static function escape_string($string){
+        $mysqli = new mysqli("localhost", "root", "", "be_project");
+        return $mysqli->real_escape_string($string);
+    }
     public static function run($sql)
     {
         if(!static::$connection) {

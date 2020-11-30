@@ -56,13 +56,13 @@
                 $sql = $sql . $sql_chain;
             }
             $sql = substr($sql, 0, -2);
-            $sql = $sql . ')';
+            $sql = $sql . ') ORDER BY date_posted DESC';
             $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }
 
         public function get_all_posts() {
-            $sql = "SELECT * FROM posts WHERE is_visible = 1 ORDER BY date_posted DESC LIMIT 16";
+            $sql = "SELECT * FROM posts WHERE is_visible = 1 ORDER BY date_posted DESC LIMIT 50";
             $response = DB::run($sql)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }
@@ -77,6 +77,7 @@
         }
 
         public function update_post($id, $about) {
+            $about = DB::escape_string($about);
             $sql = "UPDATE posts SET about = '$about' WHERE id='$id' AND author = '$this->username'";
             DB::run($sql);
         }
@@ -85,6 +86,7 @@
             DB::run($sql);
         }
         public function add_new_post($about, $date_posted, $imageFileType) {
+            $about = DB::escape_string($about);
             $sql_phase_one = "INSERT INTO posts (author, author_id, about, date_posted, img) VALUES ('$this->username', '$this->user_id', '$about', '$date_posted', 'placeholder')";
             DB::run($sql_phase_one);
             $sql_get_id = "SELECT id FROM posts WHERE author_id = '$this->user_id' AND img = 'placeholder'";
@@ -101,6 +103,7 @@
             DB::run($sql);
         }
         public function update_user_about($text){
+            $text = DB::escape_string($text);
             $sql = "UPDATE users SET about = '$text' WHERE id = '$this->user_id'";
             DB::run($sql);
         }
@@ -115,7 +118,7 @@
             return $response;
         }
         public function get_comments_by_post_id($post_id){
-            $sql = "SELECT * FROM comments WHERE post_id='$post_id'";
+            $sql = "SELECT * FROM comments WHERE post_id='$post_id' ORDER BY time_posted ASC";
             $response = DB::run($sql);
             return $response;
         }
@@ -126,6 +129,7 @@
         //     return $response;
         // }
         public function add_comment($time_posted, $comment_text, $post_id){
+            $comment_text = DB::escape_string($comment_text);
             $sql = "INSERT INTO comments (author, author_id, time_posted, comment_text, post_id) VALUES ('$this->username', '$this->user_id','$time_posted', '$comment_text', '$post_id')";
             DB::run($sql);
             $sql_get_num_comments = "SELECT COUNT(id) AS num_comments FROM comments WHERE post_id = '$post_id'";
@@ -185,14 +189,14 @@
         public function get_search_results($search_text){
             $sql_posts = "SELECT *
             FROM posts
-            WHERE is_visible = 1 AND about LIKE '%$search_text%' or author LIKE '%$search_text%'";
+            WHERE is_visible = 1 AND about LIKE '%$search_text%' or author LIKE '%$search_text%' ORDER BY date_posted DESC";
             $response = DB::run($sql_posts)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }
         public function get_search_results_by_session_user($search_text){
             $sql_posts = "SELECT *
             FROM posts
-            WHERE author_id = '$this->user_id' AND about LIKE '%$search_text%'";
+            WHERE author_id = '$this->user_id' AND about LIKE '%$search_text%' ORDER BY date_posted DESC";
             $response = DB::run($sql_posts)->fetch_all(MYSQLI_ASSOC);
             return $response;
         }

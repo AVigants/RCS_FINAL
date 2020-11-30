@@ -1,4 +1,6 @@
 <?php
+    date_default_timezone_set('Europe/Riga');
+
     if (isset($_GET["page"])) {
         $file = __DIR__ . "/controllers/" . $_GET["page"] . "_controller.php";
         session_start();

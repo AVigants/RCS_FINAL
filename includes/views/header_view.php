@@ -12,8 +12,8 @@ class Header_view
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="./scripts/header.js"></script>
-            <link rel="stylesheet" href="./assets/header.css">
+            <script src="./scripts/app.js"></script>
+            <link rel="stylesheet" href="./assets/index.css">
             <script>
                 // $(function() {
                 //     $("input[id='new_profile_pic_btn']").click(function() {
@@ -30,9 +30,9 @@ class Header_view
 
         <body>
             <!-- NAVBAR -->
-            <nav class="navbar navbar-expand-sm py-2 sticky-top navbar-dark" style="background: #333;">
+            <nav class="navbar navbar-expand-sm py-2 sticky-top navbar-dark" id="navbar">
                 <button class="navbar-toggler" type="button" data-toggle="collapse">
-                    <span class="navbar-toggler-icon  "></span>
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse">
 

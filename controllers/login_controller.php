@@ -1,6 +1,8 @@
 <?php
     require_once __DIR__ . "/../config/db_config.php";
-    require_once __DIR__ . "/../components/login_form.php";
+    require_once __DIR__ . "/../views/login_view.php";
+    require_once __DIR__ . "/../forgot_pass.php";
+
     // todo: add email availability checker
     
     //declaring variables to prevent errors
@@ -78,7 +80,7 @@
             $err_arr[] = 'Passwords must match<br>';
         }
         if ($err_arr) {
-            print_r($err_arr);
+            // print_r($err_arr);
         } else {
             $salt = "o#A*&1*71^0'}[m";
             $pass = $pass . $salt;
@@ -133,7 +135,7 @@
             }
         }
         if ($log_err_arr) {
-            print_r($log_err_arr);
+            // print_r($log_err_arr);
         }
     } //end of login submit event
 
@@ -145,17 +147,15 @@
             $sql = "SELECT * FROM users WHERE email = '$fpass_email'";
             $response = DB::run($sql);
             if (!($response->num_rows === 0)) {
-                // $recovery = new Pass_recovery();
+                $recovery = new Pass_recovery();
                 $recovery->send_pass_to_fpass_email($fpass_email);
             } else {
-                $fpass_err_arr[] =  'Email not found! <br>';
+                echo "<div class='display-4 text-danger bg-dark text-center'>Email not found! </div>";
             }
         } else {
-            $fpass_err_arr[] =  'Email must be a valid address, e.g. me@mydomain.com';
+            echo "<div class='display-4 text-danger bg-dark text-center'>Email must be a valid address, e.g. me@mydomain.com</div>";
         }
-        if ($fpass_err_arr) {
-            print_r($fpass_err_arr);
-        }
+
     } //end of forgot password submit event
 
 

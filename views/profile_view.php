@@ -17,12 +17,12 @@ class Profile_view
         <div class="container text-muted">
             <div class="row" id="cards">
                 <?php foreach ($this->posts as $post) { ?>
-                    <div class="col-md-6 col-lg-3 my-2 mb-5">
+                    <div class="col-md-6 col-lg-3 my-3">
                         <div class="card text-center">
                             <a href="/be_project_mvc/?page=home&view=post&post_id=<?= $post['id'] ?>">
-                                <img src="<?= $post['img'] ?>" style="opacity: <?php if (!$post['is_visible']) echo '0.5' ?>;" class="card-img-top img-fluid can_be_clicked">
+                                <img src="<?= $post['img'] ?>" <?php if (!$post['is_visible']) echo '0.5' ?>;" class="can_be_clicked img-top img-fluid cards">
                             </a>
-                                <div class="card-block">
+                                <div class="card-block p-1">
 
                                     <form action="?page=profile" method="POST">
                                         <div class="default_card_id_<?= $post['id'] ?>">
@@ -46,7 +46,7 @@ class Profile_view
             </div>
         </div>
 
-        <script src="scripts/profile.js"></script>
+        <!-- <script src="../scripts/app.js"></script> -->
         </body>
 
         </html>

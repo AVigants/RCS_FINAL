@@ -20,7 +20,7 @@ if (isset($_POST['profile_pic_submit'])) {
         $basename = str_replace(' ', '_', $basename);
         $basename = htmlspecialchars($basename); // if it doesnt work, try removing or tweaking this
         $target_file = $target_dir . $basename;
-        $uploadOk = 1;
+        $uploadOk_prof_pic = 1;
         $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
         // $check = getimagesize($_FILES["profile_pic_input"]["tmp_name"]);
@@ -31,21 +31,17 @@ if (isset($_POST['profile_pic_submit'])) {
         //     $uploadOk = 0;
         // }
         if ($_FILES["profile_pic_input"]["size"] > 20971520) {
-            $profile_pic_err_arr[] = "Sorry, your file is too large. Max allowed: 20MB";
-            $uploadOk = 0;
+            echo "<div class='text-center display-4 text-danger bg-dark py-2'>File is too large! Max allowed: 20MB.</div>";
+            $uploadOk_prof_pic = 0;
         }
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-            $profile_pic_err_arr[] = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-            $uploadOk = 0;
+            echo "<div class='text-center display-4 text-danger bg-dark py-2'>Only JPG, JPEG, PNG & GIF files are allowed.</div>";
+            $uploadOk_prof_pic = 0;
         }
-        if ($profile_pic_err_arr) {
-            echo "Sorry, your file was not uploaded.<br>";
-            print_r($profile_pic_err_arr);
-        } else {
+        if ($uploadOk_prof_pic !== 0) {
             $model->add_new_profile_pic($imageFileType);
             $target_file = $target_dir . $_SESSION['user_id'] . '.' . $imageFileType;
             move_uploaded_file($_FILES["profile_pic_input"]["tmp_name"], $target_file);
-            echo 'file has been moved to designated server folder';
             
             // if(!(file_exists($target_file))) {
             //     move_uploaded_file($_FILES["post_pic"]["tmp_name"], $target_file);
@@ -83,7 +79,7 @@ if (isset($_GET["view"]) && $_GET["view"] === "profile") {
         $view = new Foreign_user_jumbotron_view();
         $view->foreign_user_jumbotron_html($foreign_user, $is_following);
     } else {
-        echo 'something went wrong';
+        echo "<div class='text-center display-4 text-danger bg-dark py-2'>Something went wrong! :c</div>";
     }
 } else {
     $view = new User_jumbotron_view();
