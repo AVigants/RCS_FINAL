@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__ . "/../config/db_config.php";
     require_once __DIR__ . "/../views/login_view.php";
-    require_once __DIR__ . "/../forgot_pass.php";
+    // require_once __DIR__ . "/../forgot_pass.php";
     
     $fname = '';
     $username = '';
