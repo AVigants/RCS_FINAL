@@ -50,17 +50,20 @@ class User_jumbotron_view
                     </form>
                 </div>
 
-                <div class="flex-shrink-0 col-lg-7 col-md-7">
+                <div class="flex-shrink-0 col-lg-7 col-md-7 text-center text-md-left">
                     <h1 class="display-1">Hello, <span class="text-lowercase text-capitalize text-dark"><?= $_SESSION['fname'] ?? '' ?></span></h1>
 
                     <div id="about">
                         <p class="lead">"<?= $about ?? 'May the force be ever in your favor' ?>"</p>
                         <?php if ($about) { ?>
-                            <p class="font-italic">/<?= $_SESSION['username'] ?>/</p>
+                            <p class="font-italic">/<?= $_SESSION['username'] ?>/
+                                <button class="btn btn-primary fas fa-edit fa-lg d-inline ml-2" id="edit_about_btn"></button>
+                            </p>
                         <?php } else { ?>
-                            <p class="font-italic">/<?= 'Dumbledore' ?>/</p>
+                            <p class="font-italic">/<?= 'Dumbledore' ?>/
+                                <button class="btn btn-primary fas fa-edit fa-lg d-inline ml-2" id="edit_about_btn"></button>
+                            </p>
                         <?php } ?>
-                        <button class="btn btn-primary fas fa-edit fa-lg d-inline ml-2" id="edit_about_btn"></button>
                         </p>
                     </div>
                     <div id="edit_about_form" style="display: none">
@@ -73,9 +76,9 @@ class User_jumbotron_view
 
                     <form action="" method="POST">
                         <div class="input-group mx-auto">
-                            <input class="form-control rounded-pill col-sm-6  col-md-8 col-lg-6" type="search" placeholder="Search" id="search_input_field" name="search_text">
+                            <input class="form-control rounded-pill col-sm-12  col-md-10 col-lg-7" type="search" placeholder="Search" id="search_input_field" name="search_text">
                             <span class="input-group-append">
-                                <button class="btn rounded-pill border-0 ml-n5" type="submit" name="search_btn">
+                                <button class="btn rounded-pill border-0 ml-n5" type="submit" name="search_btn" id="search_btn">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </span>

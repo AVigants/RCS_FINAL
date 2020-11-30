@@ -49,7 +49,7 @@ class Foreign_user_jumbotron_view
                     </form>
                 </div>
 
-                <div class="flex-shrink-0 col-lg-7 col-md-7">
+                <div class="flex-shrink-0 col-lg-7 col-md-7 text-center text-md-left">
                     <h1 class="display-1">
                         <span class="text-lowercase text-capitalize text-dark">@<?= $foreign_user['username'] ?></span>
                     </h1>
@@ -64,12 +64,12 @@ class Foreign_user_jumbotron_view
                         if (!$is_following) {
                     ?>
                             <form method="POST">
-                                <button type="submit" class="btn btn-warning m-0 col-5" name="follow_btn" id="follow_btn">Follow</button>
+                                <button type="submit" class="btn btn-warning m-0 col-sm-12  col-md-10 col-lg-7" name="follow_btn" id="follow_btn">Follow</button>
                             </form>
                         <?php } else {
                         ?>
                             <form method="POST">
-                                <button type="submit" class="btn btn-dark m-0 col-5" name="unfollow_btn" id="follow_btn">Unfollow</button>
+                                <button type="submit" class="btn btn-dark m-0 col-sm-12  col-md-10 col-lg-7" name="unfollow_btn" id="follow_btn">Unfollow</button>
                             </form>
                     <?php
                         }

@@ -66,7 +66,7 @@ class Home_view
     ?>
         <div class="container text-muted">
             <div class="row mt-2 mb-5">
-                <div class="col-6 mx-auto">
+                <div class="col-sm-12 col-md-11 col-lg-10 my-2 mx-auto">
                     <div class="card bg-light">
                         <div>
                             <img src="<?= $this->posts['img'] ?>" alt="" class="card-img-top img-fluid">
